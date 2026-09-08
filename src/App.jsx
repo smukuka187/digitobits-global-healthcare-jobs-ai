@@ -21,6 +21,9 @@ import Applications from '@/pages/Applications';
 import SavedJobs from '@/pages/SavedJobs';
 import SearchProfiles from '@/pages/SearchProfiles';
 import Notifications from '@/pages/Notifications';
+import JobsForYou from '@/pages/JobsForYou';
+import Billing from '@/pages/Billing';
+import CareerAdvisor from '@/pages/CareerAdvisor';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -62,6 +65,9 @@ const AuthenticatedApp = () => {
           <Route path="/saved" element={<SavedJobs />} />
           <Route path="/profiles" element={<SearchProfiles />} />
           <Route path="/notifications" element={<Notifications />} />
+          <Route path="/jobs-for-you" element={<JobsForYou />} />
+          <Route path="/billing" element={<Billing />} />
+          <Route path="/career-advisor" element={<CareerAdvisor />} />
         </Route>
       </Route>
       <Route path="*" element={<PageNotFound />} />

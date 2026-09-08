@@ -1,0 +1,48 @@
+{
+  "name": "Referral",
+  "type": "object",
+  "properties": {
+    "referralCode": {
+      "type": "string"
+    },
+    "referredEmail": {
+      "type": "string"
+    },
+    "referredUserId": {
+      "type": "string"
+    },
+    "rewardStatus": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "completed",
+        "rewarded"
+      ]
+    },
+    "rewardPlan": {
+      "type": "string"
+    },
+    "convertedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "referralCode",
+    "rewardStatus"
+  ],
+  "rls": {
+    "read": {
+      "created_by_id": "{{user.id}}"
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "created_by_id": "{{user.id}}"
+    },
+    "delete": {
+      "created_by_id": "{{user.id}}"
+    }
+  }
+}

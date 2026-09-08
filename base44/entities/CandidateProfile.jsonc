@@ -69,6 +69,35 @@
         "type": "string"
       }
     },
+    "interests": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "alertLevel": {
+      "type": "string",
+      "enum": [
+        "conservative",
+        "balanced",
+        "broad"
+      ]
+    },
+    "preferredJobType": {
+      "type": "string"
+    },
+    "preferredWorkMode": {
+      "type": "string"
+    },
+    "salaryExpectationMin": {
+      "type": "number"
+    },
+    "salaryExpectationMax": {
+      "type": "number"
+    },
+    "salaryCurrency": {
+      "type": "string"
+    },
     "cvUrl": {
       "type": "string"
     },
