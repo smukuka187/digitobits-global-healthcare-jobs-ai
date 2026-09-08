@@ -24,6 +24,7 @@ import Notifications from '@/pages/Notifications';
 import JobsForYou from '@/pages/JobsForYou';
 import Billing from '@/pages/Billing';
 import CareerAdvisor from '@/pages/CareerAdvisor';
+import Admin from '@/pages/Admin';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -68,6 +69,7 @@ const AuthenticatedApp = () => {
           <Route path="/jobs-for-you" element={<JobsForYou />} />
           <Route path="/billing" element={<Billing />} />
           <Route path="/career-advisor" element={<CareerAdvisor />} />
+          <Route path="/admin" element={<Admin />} />
         </Route>
       </Route>
       <Route path="*" element={<PageNotFound />} />

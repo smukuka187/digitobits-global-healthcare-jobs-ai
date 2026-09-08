@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import {
   ArrowLeft, MapPin, Briefcase, Bookmark, Send, MessageSquare, ShieldAlert,
-  ShieldCheck, Globe, Clock, Plane, FileCheck, Sparkles, Loader2, CheckCircle2, AlertTriangle
+  ShieldCheck, Globe, Clock, Plane, FileCheck, Sparkles, Loader2, CheckCircle2, AlertTriangle, Lock
 } from "lucide-react";
 import MatchRing from "@/components/MatchRing";
 import {
@@ -11,6 +11,7 @@ import {
   getTimezoneCompatibility, CURRENCIES
 } from "@/lib/healthcareData";
 import { useCurrency } from "@/lib/currency";
+import { useSubscription } from "@/hooks/useSubscription";
 
 const STATUS_OPTIONS = ["discovered", "saved", "reviewing", "prepared", "awaiting_approval", "applied", "assessment", "interview", "second_interview", "offer", "rejected", "withdrawn"];
 
@@ -18,6 +19,7 @@ export default function JobDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { currency, setCurrency, currencies } = useCurrency();
+  const { hasFeature } = useSubscription();
   const [job, setJob] = useState(null);
   const [profile, setProfile] = useState(null);
   const [saved, setSaved] = useState(false);
@@ -269,11 +271,17 @@ export default function JobDetail() {
 
           {/* Application prep */}
           <Section title="AI Application Assistant" icon={FileCheck} action={
-            <button onClick={runPrep} disabled={prepLoading} className="inline-flex items-center gap-1.5 rounded-lg bg-teal-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-teal-700 disabled:opacity-60">
-              {prepLoading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <FileCheck className="h-3.5 w-3.5" />} {prep ? "Regenerate" : "Prepare"}
-            </button>
+            hasFeature("applicationPrep") ? (
+              <button onClick={runPrep} disabled={prepLoading} className="inline-flex items-center gap-1.5 rounded-lg bg-teal-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-teal-700 disabled:opacity-60">
+                {prepLoading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <FileCheck className="h-3.5 w-3.5" />} {prep ? "Regenerate" : "Prepare"}
+              </button>
+            ) : (
+              <Link to="/billing" className="inline-flex items-center gap-1.5 rounded-lg border border-teal-200 bg-teal-50 px-3 py-1.5 text-xs font-semibold text-teal-700 hover:bg-teal-100">
+                <Lock className="h-3.5 w-3.5" /> Upgrade
+              </Link>
+            )
           }>
-            {!prep && !prepLoading && <p className="text-sm text-slate-400">Generate a tailored cover letter and application answers from your profile.</p>}
+            {!prep && !prepLoading && <p className="text-sm text-slate-400">{hasFeature("applicationPrep") ? "Generate a tailored cover letter and application answers from your profile." : "Application preparation is available on Professional and Premium."}</p>}
             {prepLoading && <div className="flex items-center gap-2 text-sm text-slate-400"><Loader2 className="h-4 w-4 animate-spin" /> Preparing your application…</div>}
             {prep && (
               <div className="space-y-4">
@@ -310,11 +318,17 @@ export default function JobDetail() {
 
           {/* Interview prep */}
           <Section title="AI Interview Preparation" icon={MessageSquare} action={
-            <button onClick={runInterview} disabled={interviewLoading} className="inline-flex items-center gap-1.5 rounded-lg bg-teal-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-teal-700 disabled:opacity-60">
-              {interviewLoading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <MessageSquare className="h-3.5 w-3.5" />} {interview ? "Regenerate" : "Generate"}
-            </button>
+            hasFeature("interviewPrep") ? (
+              <button onClick={runInterview} disabled={interviewLoading} className="inline-flex items-center gap-1.5 rounded-lg bg-teal-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-teal-700 disabled:opacity-60">
+                {interviewLoading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <MessageSquare className="h-3.5 w-3.5" />} {interview ? "Regenerate" : "Generate"}
+              </button>
+            ) : (
+              <Link to="/billing" className="inline-flex items-center gap-1.5 rounded-lg border border-teal-200 bg-teal-50 px-3 py-1.5 text-xs font-semibold text-teal-700 hover:bg-teal-100">
+                <Lock className="h-3.5 w-3.5" /> Upgrade
+              </Link>
+            )
           }>
-            {!interview && !interviewLoading && <p className="text-sm text-slate-400">Generate likely interview questions with suggested approaches.</p>}
+            {!interview && !interviewLoading && <p className="text-sm text-slate-400">{hasFeature("interviewPrep") ? "Generate likely interview questions with suggested approaches." : "Interview preparation is available on Professional and Premium."}</p>}
             {interviewLoading && <div className="flex items-center gap-2 text-sm text-slate-400"><Loader2 className="h-4 w-4 animate-spin" /> Preparing questions…</div>}
             {interview && (
               <div className="space-y-3">
