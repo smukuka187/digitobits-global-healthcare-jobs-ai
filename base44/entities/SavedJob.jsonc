@@ -1,0 +1,48 @@
+{
+  "name": "SavedJob",
+  "type": "object",
+  "properties": {
+    "jobId": {
+      "type": "string"
+    },
+    "jobTitle": {
+      "type": "string"
+    },
+    "employer": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "countryName": {
+      "type": "string"
+    },
+    "workMode": {
+      "type": "string"
+    },
+    "matchScore": {
+      "type": "number"
+    },
+    "jobSnapshot": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "jobId",
+    "jobTitle"
+  ],
+  "rls": {
+    "read": {
+      "created_by_id": "{{user.id}}"
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "created_by_id": "{{user.id}}"
+    },
+    "delete": {
+      "created_by_id": "{{user.id}}"
+    }
+  }
+}

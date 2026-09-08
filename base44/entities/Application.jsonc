@@ -1,0 +1,83 @@
+{
+  "name": "Application",
+  "type": "object",
+  "properties": {
+    "jobId": {
+      "type": "string"
+    },
+    "jobTitle": {
+      "type": "string"
+    },
+    "employer": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "countryName": {
+      "type": "string"
+    },
+    "workMode": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "discovered",
+        "saved",
+        "reviewing",
+        "prepared",
+        "awaiting_approval",
+        "applied",
+        "assessment",
+        "interview",
+        "second_interview",
+        "offer",
+        "rejected",
+        "withdrawn"
+      ]
+    },
+    "coverLetter": {
+      "type": "string"
+    },
+    "applicationAnswers": {
+      "type": "string"
+    },
+    "qualityCheck": {
+      "type": "string"
+    },
+    "matchScore": {
+      "type": "number"
+    },
+    "preparedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "submittedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "jobId",
+    "jobTitle",
+    "status"
+  ],
+  "rls": {
+    "read": {
+      "created_by_id": "{{user.id}}"
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "created_by_id": "{{user.id}}"
+    },
+    "delete": {
+      "created_by_id": "{{user.id}}"
+    }
+  }
+}

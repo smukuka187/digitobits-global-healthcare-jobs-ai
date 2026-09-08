@@ -1,0 +1,157 @@
+{
+  "name": "Job",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "profession": {
+      "type": "string"
+    },
+    "specialization": {
+      "type": "string"
+    },
+    "employer": {
+      "type": "string"
+    },
+    "employerWebsite": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "requirements": {
+      "type": "string"
+    },
+    "continent": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "countryName": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "workMode": {
+      "type": "string",
+      "enum": [
+        "on-site",
+        "hybrid",
+        "remote"
+      ]
+    },
+    "jobType": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "salaryMin": {
+      "type": "number"
+    },
+    "salaryMax": {
+      "type": "number"
+    },
+    "currency": {
+      "type": "string"
+    },
+    "salaryPeriod": {
+      "type": "string",
+      "enum": [
+        "year",
+        "month",
+        "hour"
+      ]
+    },
+    "visaSponsorship": {
+      "type": "string",
+      "enum": [
+        "mentioned",
+        "not_mentioned",
+        "not_available"
+      ]
+    },
+    "relocation": {
+      "type": "string",
+      "enum": [
+        "available",
+        "not_mentioned",
+        "not_available"
+      ]
+    },
+    "internationalApplicants": {
+      "type": "string",
+      "enum": [
+        "accepted",
+        "local_only",
+        "not_mentioned"
+      ]
+    },
+    "remoteWorldwide": {
+      "type": "boolean"
+    },
+    "remoteTimezone": {
+      "type": "string"
+    },
+    "remoteHours": {
+      "type": "string"
+    },
+    "registrationRequired": {
+      "type": "string"
+    },
+    "qualificationRequired": {
+      "type": "string"
+    },
+    "experienceYears": {
+      "type": "number"
+    },
+    "postedDate": {
+      "type": "string",
+      "format": "date"
+    },
+    "source": {
+      "type": "string"
+    },
+    "sourceUrl": {
+      "type": "string"
+    },
+    "fraudRisk": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "fraudNotes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "title",
+    "profession",
+    "country",
+    "workMode"
+  ],
+  "rls": {
+    "read": {},
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

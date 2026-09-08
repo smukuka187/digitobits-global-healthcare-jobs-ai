@@ -1,0 +1,102 @@
+{
+  "name": "CandidateProfile",
+  "type": "object",
+  "properties": {
+    "fullName": {
+      "type": "string"
+    },
+    "professionalTitle": {
+      "type": "string"
+    },
+    "qualifications": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "certifications": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "registrationType": {
+      "type": "string"
+    },
+    "registrationNumber": {
+      "type": "string"
+    },
+    "registrationCountry": {
+      "type": "string"
+    },
+    "licenseExpiry": {
+      "type": "string",
+      "format": "date"
+    },
+    "yearsExperience": {
+      "type": "number"
+    },
+    "specialties": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "clinicalExperience": {
+      "type": "string"
+    },
+    "languages": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "location": {
+      "type": "string"
+    },
+    "locationName": {
+      "type": "string"
+    },
+    "workAuthorization": {
+      "type": "string"
+    },
+    "availability": {
+      "type": "string"
+    },
+    "preferredCountries": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "cvUrl": {
+      "type": "string"
+    },
+    "cvAnalysis": {
+      "type": "object"
+    },
+    "employabilityScore": {
+      "type": "number"
+    },
+    "employabilityBreakdown": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "professionalTitle"
+  ],
+  "rls": {
+    "read": {
+      "created_by_id": "{{user.id}}"
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "created_by_id": "{{user.id}}"
+    },
+    "delete": {
+      "created_by_id": "{{user.id}}"
+    }
+  }
+}
