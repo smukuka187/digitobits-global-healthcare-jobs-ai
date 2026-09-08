@@ -25,6 +25,7 @@ import JobsForYou from '@/pages/JobsForYou';
 import Billing from '@/pages/Billing';
 import CareerAdvisor from '@/pages/CareerAdvisor';
 import Admin from '@/pages/Admin';
+import PublicJobs from '@/pages/PublicJobs';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -56,6 +57,7 @@ const AuthenticatedApp = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="/jobs-board" element={<PublicJobs />} />
       <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/login" replace />} />}>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
