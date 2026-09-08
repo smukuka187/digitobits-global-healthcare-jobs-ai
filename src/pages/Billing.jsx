@@ -5,12 +5,21 @@ import { useSubscription } from "@/hooks/useSubscription";
 import { PLANS, getPlan, formatLimit } from "@/lib/plans";
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
-import { CreditCard, Check, Crown, Sparkles, Gift, Copy, X, Receipt } from "lucide-react";
+import { Crown, Check, Gift, Copy, X, Receipt, Lock } from "lucide-react";
+
+const LIMITS = { free: 3, basic: 10, professional: Infinity, premium: Infinity };
+const inIframe = () => {
+  try {
+    return window.self !== window.top;
+  } catch {
+    return true;
+  }
+};
 
 export default function Billing() {
   const { user } = useAuth();
   const { toast } = useToast();
-  const { subscription, planId, plan, loading, refresh, setSubscription } = useSubscription();
+  const { subscription, planId, plan, loading, setSubscription } = useSubscription();
   const [payments, setPayments] = useState([]);
   const [referrals, setReferrals] = useState([]);
   const [busy, setBusy] = useState(false);
@@ -37,47 +46,47 @@ export default function Billing() {
   }, [user]);
 
   const usageUsed = subscription?.monthlyRecommendationsUsed || 0;
-  const usageLimit = plan && formatLimit(plan && (PLAN_FEATURES_LIMIT(planId)));
+  const limitNum = LIMITS[planId] ?? 3;
 
   const subscribe = async (newPlanId) => {
     if (newPlanId === planId) return;
     setBusy(true);
     try {
-      const p = getPlan(newPlanId);
-      const renewal = new Date();
-      renewal.setMonth(renewal.getMonth() + 1);
-      const renewalDate = renewal.toISOString().slice(0, 10);
-      const base = {
-        plan: newPlanId,
-        planName: p.name,
-        price: p.price,
-        currency: p.currency,
-        status: "active",
-        renewalDate,
-        paymentProvider: "stripe",
-        alertLevel: subscription?.alertLevel || "balanced",
-        monthlyRecommendationsUsed: 0,
-      };
-      let result;
-      if (subscription) {
-        result = await base44.entities.Subscription.update(subscription.id, base);
-      } else {
-        result = await base44.entities.Subscription.create({
-          ...base,
-          startDate: new Date().toISOString(),
-        });
+      if (newPlanId === "free") {
+        if (subscription) {
+          const updated = await base44.entities.Subscription.update(subscription.id, {
+            plan: "free",
+            planName: "Free",
+            price: 0,
+            status: "cancelled",
+            cancelledAt: new Date().toISOString(),
+          });
+          setSubscription(updated);
+        }
+        toast({ title: "Downgraded to Free" });
+        return;
       }
-      setSubscription(result);
-      toast({
-        title: `You're on ${p.name}`,
-        description:
-          p.price > 0
-            ? "Live card billing activates once your Stripe account is verified."
-            : "Downgraded to the Free plan.",
+
+      if (inIframe()) {
+        toast({
+          title: "Open the published app to pay",
+          description: "Checkout only works from the published app, not the builder preview.",
+        });
+        return;
+      }
+
+      const res = await base44.functions.invoke("CreateCheckout", {
+        planId: newPlanId,
+        userId: user?.id,
+        email: user?.email,
       });
-      loadExtras();
+      if (res.data?.url) {
+        window.location.href = res.data.url;
+      } else {
+        throw new Error(res.data?.error || "Could not start checkout");
+      }
     } catch (e) {
-      toast({ title: "Could not update plan", description: e.message, variant: "destructive" });
+      toast({ title: "Checkout failed", description: e.message, variant: "destructive" });
     } finally {
       setBusy(false);
     }
@@ -119,11 +128,8 @@ export default function Billing() {
     );
   }
 
-  const limitNum = subscription?.monthlyRecommendationsLimit || (planId === "free" ? 3 : planId === "basic" ? 10 : Infinity);
-
   return (
     <div className="mx-auto max-w-6xl space-y-8">
-      {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-slate-900">Subscription & Billing</h1>
         <p className="mt-1 text-sm text-slate-500">
@@ -154,19 +160,19 @@ export default function Billing() {
           </div>
         </div>
 
-        {/* Alert level */}
         <div className="mt-5 border-t border-white/20 pt-4">
           <div className="mb-2 text-xs uppercase tracking-wide text-teal-100">Alert sensitivity</div>
           <div className="flex flex-wrap gap-2">
             {[
-              { id: "conservative", label: "Conservative · 90–100%", min: 90 },
-              { id: "balanced", label: "Balanced · 80–100%", min: 80 },
-              { id: "broad", label: "Broad · 70–100%", min: 70 },
+              { id: "conservative", label: "Conservative · 90–100%" },
+              { id: "balanced", label: "Balanced · 80–100%" },
+              { id: "broad", label: "Broad · 70–100%" },
             ].map((l) => (
               <button
                 key={l.id}
                 onClick={() => setAlertLevel(l.id)}
-                className={`rounded-xl px-3 py-1.5 text-xs font-medium transition ${
+                disabled={!subscription}
+                className={`rounded-xl px-3 py-1.5 text-xs font-medium transition disabled:opacity-50 ${
                   (subscription?.alertLevel || "balanced") === l.id
                     ? "bg-white text-teal-700"
                     : "bg-white/15 text-white hover:bg-white/25"
@@ -218,11 +224,16 @@ export default function Billing() {
                 disabled={current || busy}
                 onClick={() => subscribe(p.id)}
               >
-                {current ? "Current plan" : p.price > 0 ? `Upgrade to ${p.name}` : "Downgrade"}
+                {current ? "Current plan" : p.price > 0 ? `Upgrade to ${p.name}` : "Downgrade to Free"}
               </Button>
             </div>
           );
         })}
+      </div>
+
+      <div className="rounded-2xl border border-teal-200 bg-teal-50/50 p-4 text-xs text-slate-600">
+        <Lock className="mr-1.5 inline h-3.5 w-3.5 text-teal-600" />
+        Payments are processed securely by Stripe. Use test card <code className="font-mono">4242 4242 4242 4242</code> to try it — publish the app first, since checkout doesn't run inside the builder preview.
       </div>
 
       {/* Payment history + referral */}
@@ -280,9 +291,4 @@ export default function Billing() {
       </div>
     </div>
   );
-}
-
-function PLAN_FEATURES_LIMIT(planId) {
-  const limits = { free: 3, basic: 10, professional: Infinity, premium: Infinity };
-  return limits[planId] ?? 3;
 }

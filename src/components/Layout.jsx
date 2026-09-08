@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { NavLink, Outlet, Link, useNavigate } from "react-router-dom";
 import {
   Stethoscope, LayoutDashboard, Search, Bookmark, FileText,
-  Users, User, Bell, Menu, X, LogOut
+  Users, User, Bell, Menu, X, LogOut, Sparkles, MessageCircle, CreditCard
 } from "lucide-react";
 import { useAuth } from "@/lib/AuthContext";
 import { useLanguage } from "@/lib/i18n";
@@ -16,11 +16,14 @@ export default function Layout() {
 
   const nav = [
     { to: "/", icon: LayoutDashboard, key: "nav_dashboard", end: true },
+    { to: "/jobs-for-you", icon: Sparkles, label: "Jobs For You" },
     { to: "/jobs", icon: Search, key: "nav_jobs" },
     { to: "/saved", icon: Bookmark, key: "nav_saved" },
     { to: "/applications", icon: FileText, key: "nav_applications" },
+    { to: "/career-advisor", icon: MessageCircle, label: "AI Career Advisor" },
     { to: "/profiles", icon: Users, key: "nav_profiles" },
     { to: "/profile", icon: User, key: "nav_profile" },
+    { to: "/billing", icon: CreditCard, label: "Subscription" },
   ];
 
   const handleLogout = () => logout();
@@ -51,7 +54,7 @@ export default function Layout() {
             }
           >
             <n.icon className="h-4.5 w-4.5" style={{ width: 18, height: 18 }} />
-            {t(n.key)}
+            {n.label || t(n.key)}
           </NavLink>
         ))}
       </nav>
