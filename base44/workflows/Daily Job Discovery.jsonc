@@ -1,9 +1,26 @@
 {
-  "description": "AI agent that searches the web daily for currently open (non-expired) healthcare job listings and adds them to the jobs board.",
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "scheduled",
+      "events": [],
+      "schedule_mode": "recurring",
+      "cron_expression": "*/30 * * * *",
+      "one_time_date": null,
+      "timezone": "Africa/Lusaka",
+      "interval_value": null,
+      "interval_unit": null,
+      "interval_anchor": null,
+      "ends_type": "never",
+      "ends_on_date": null,
+      "ends_after_count": null
+    }
+  },
+  "description": "AI agent that automatically searches the web every 30 minutes for currently open (non-expired) healthcare job listings and adds them to the jobs board.",
   "definition": {
     "document": {
       "dsl": "1.0.0",
-      "name": "daily_job_discovery",
+      "name": "ai_job_discovery_agent",
       "version": "1.0",
       "namespace": "base44"
     },
@@ -26,22 +43,5 @@
       }
     ]
   },
-  "name": "Daily Job Discovery",
-  "trigger": {
-    "condition": null,
-    "config": {
-      "trigger_type": "scheduled",
-      "events": [],
-      "schedule_mode": "recurring",
-      "cron_expression": "0 8 * * *",
-      "one_time_date": null,
-      "timezone": "Africa/Lusaka",
-      "interval_value": null,
-      "interval_unit": null,
-      "interval_anchor": null,
-      "ends_type": "never",
-      "ends_on_date": null,
-      "ends_after_count": null
-    }
-  }
+  "name": "AI Job Discovery Agent"
 }
