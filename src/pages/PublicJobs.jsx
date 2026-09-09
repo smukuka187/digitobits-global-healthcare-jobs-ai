@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { COUNTRIES, PROFESSIONS, COUNTRY_BY_CODE, formatSalary } from "@/lib/healthcareData";
 import PublicJobCard from "@/components/PublicJobCard";
+import PublicFooter from "@/components/PublicFooter";
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription,
 } from "@/components/ui/dialog";
@@ -88,6 +89,8 @@ export default function PublicJobs() {
             </div>
           </Link>
           <div className="flex items-center gap-2">
+            <Link to="/about" className="hidden rounded-lg px-3 py-1.5 text-sm font-medium text-slate-600 hover:bg-slate-100 sm:block">About</Link>
+            <Link to="/contact" className="hidden rounded-lg px-3 py-1.5 text-sm font-medium text-slate-600 hover:bg-slate-100 sm:block">Contact</Link>
             <Link to="/login" className="rounded-lg px-3 py-1.5 text-sm font-medium text-slate-600 hover:bg-slate-100">Sign in</Link>
             <Link to="/register" className="rounded-lg bg-teal-600 px-3.5 py-1.5 text-sm font-semibold text-white hover:bg-teal-700">Get started</Link>
           </div>
@@ -156,6 +159,8 @@ export default function PublicJobs() {
           <Link to="/register" className="mt-4 inline-flex items-center gap-2 rounded-xl bg-teal-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-teal-700">Get started free</Link>
         </div>
       </section>
+
+      <PublicFooter />
 
       {/* Mobile filter drawer */}
       {mobileOpen && (
