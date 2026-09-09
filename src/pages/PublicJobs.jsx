@@ -51,7 +51,7 @@ export default function PublicJobs() {
       <Filter label="Profession">
         <select value={profession} onChange={(e) => setProfession(e.target.value)} className="inp">
           <option value="">All</option>
-          {PROFESSIONS.map((p) => <option key={p} value={p}>{p}</option>)}
+          {PROFESSIONS.map((p) => <option key={p.category} value={p.category}>{p.icon} {p.category}</option>)}
         </select>
       </Filter>
       <Filter label="Country">

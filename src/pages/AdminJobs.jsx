@@ -156,7 +156,7 @@ export default function AdminJobs() {
               <Field label="Profession *">
                 <select className="inp" value={form.profession} onChange={(e) => u("profession", e.target.value)}>
                   <option value="">Select</option>
-                  {PROFESSIONS.map((p) => <option key={p} value={p}>{p}</option>)}
+                  {PROFESSIONS.map((p) => <option key={p.category} value={p.category}>{p.icon} {p.category}</option>)}
                 </select>
               </Field>
               <Field label="Specialization"><input className="inp" value={form.specialization} onChange={(e) => u("specialization", e.target.value)} /></Field>
