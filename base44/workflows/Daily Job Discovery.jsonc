@@ -1,0 +1,47 @@
+{
+  "description": "AI agent that searches the web daily for currently open (non-expired) healthcare job listings and adds them to the jobs board.",
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "daily_job_discovery",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "discover": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "DiscoverJobs",
+            "args": {
+              "focus": "currently open healthcare roles worldwide"
+            }
+          },
+          "then": "end",
+          "x-base44": {
+            "title": "Discover jobs",
+            "description": "AI web search for active healthcare listings"
+          }
+        }
+      }
+    ]
+  },
+  "name": "Daily Job Discovery",
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "scheduled",
+      "events": [],
+      "schedule_mode": "recurring",
+      "cron_expression": "0 8 * * *",
+      "one_time_date": null,
+      "timezone": "Africa/Lusaka",
+      "interval_value": null,
+      "interval_unit": null,
+      "interval_anchor": null,
+      "ends_type": "never",
+      "ends_on_date": null,
+      "ends_after_count": null
+    }
+  }
+}

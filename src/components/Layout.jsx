@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { NavLink, Outlet, Link, useNavigate } from "react-router-dom";
 import {
   Stethoscope, LayoutDashboard, Search, Bookmark, FileText,
-  Users, User, Bell, Menu, X, LogOut, Sparkles, MessageCircle, CreditCard, BarChart3
+  Users, User, Bell, Menu, X, LogOut, Sparkles, MessageCircle, CreditCard, BarChart3, Briefcase
 } from "lucide-react";
 import { useAuth } from "@/lib/AuthContext";
 import { useLanguage } from "@/lib/i18n";
@@ -24,6 +24,7 @@ export default function Layout() {
     { to: "/profiles", icon: Users, key: "nav_profiles" },
     { to: "/profile", icon: User, key: "nav_profile" },
     { to: "/billing", icon: CreditCard, label: "Subscription" },
+    { to: "/admin/jobs", icon: Briefcase, label: "Job Management", adminOnly: true },
     { to: "/admin", icon: BarChart3, label: "Admin", adminOnly: true },
   ];
 

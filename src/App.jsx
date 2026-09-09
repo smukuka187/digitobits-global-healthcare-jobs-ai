@@ -25,6 +25,7 @@ import JobsForYou from '@/pages/JobsForYou';
 import Billing from '@/pages/Billing';
 import CareerAdvisor from '@/pages/CareerAdvisor';
 import Admin from '@/pages/Admin';
+import AdminJobs from '@/pages/AdminJobs';
 import PublicJobs from '@/pages/PublicJobs';
 
 const AuthenticatedApp = () => {
@@ -72,6 +73,7 @@ const AuthenticatedApp = () => {
           <Route path="/billing" element={<Billing />} />
           <Route path="/career-advisor" element={<CareerAdvisor />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/jobs" element={<AdminJobs />} />
         </Route>
       </Route>
       <Route path="*" element={<PageNotFound />} />
