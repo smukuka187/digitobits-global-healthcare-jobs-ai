@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import {
@@ -36,6 +36,7 @@ export default function JobDetail() {
   const [fraud, setFraud] = useState(null);
   const [fraudLoading, setFraudLoading] = useState(false);
   const [approved, setApproved] = useState(false);
+  const prepRef = useRef(null);
 
   const load = async () => {
     setLoading(true);
@@ -137,6 +138,13 @@ export default function JobDetail() {
     setApproved(false);
   };
 
+  const applyNow = async () => {
+    if (!hasFeature("applicationPrep")) { navigate("/billing"); return; }
+    if (!profile) { navigate("/profile"); return; }
+    await runPrep();
+    prepRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   const updateStatus = async (status) => {
     if (!application) return;
     const app = await base44.entities.Application.update(application.id, { status });
@@ -186,6 +194,9 @@ export default function JobDetail() {
           <div className="flex items-center gap-2">
             <button onClick={toggleSave} className={`inline-flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-medium transition ${saved ? "border-teal-500 bg-teal-50 text-teal-700" : "border-slate-200 text-slate-600 hover:bg-slate-50"}`}>
               <Bookmark className="h-4 w-4" fill={saved ? "currentColor" : "none"} /> {saved ? "Saved" : "Save"}
+            </button>
+            <button onClick={applyNow} disabled={prepLoading} className="inline-flex items-center gap-2 rounded-xl bg-teal-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-teal-700 disabled:opacity-60">
+              {prepLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />} {application ? "Continue" : "Apply Now"}
             </button>
           </div>
         </div>
@@ -270,6 +281,7 @@ export default function JobDetail() {
           </Section>
 
           {/* Application prep */}
+          <div ref={prepRef} className="scroll-mt-24" />
           <Section title="AI Application Assistant" icon={FileCheck} action={
             hasFeature("applicationPrep") ? (
               <button onClick={runPrep} disabled={prepLoading} className="inline-flex items-center gap-1.5 rounded-lg bg-teal-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-teal-700 disabled:opacity-60">
